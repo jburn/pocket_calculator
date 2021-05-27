@@ -96,122 +96,42 @@ The following functions are used by all the different buttons in the interface
 to alter the states as needed, and to put the variables and operands on the calcline.
 """
 
-def addone():
+def addnum(num):
     if states["finished"] < 1:
-        states["hiddenline"] += "1" 
+        states["hiddenline"] += "{}".format(num) 
         calcline.set(states["hiddenline"])
-        states["numbers"][states["moves"]] += "1"
+        states["numbers"][states["moves"]] += "{}".format(num)
         try:
             if states["numbers"][states["moves"]].find(".") == -1:
                 states["dot"] = 0
         except AttributeError:
             pass
 
-def addtwo():
-    if states["finished"] < 1:
-        states["hiddenline"] += "2" 
-        calcline.set(states["hiddenline"])
-        states["numbers"][states["moves"]] += "2"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-
-def addthree():
-    if states["finished"] < 1:
-        states["hiddenline"] += "3" 
-        calcline.set(states["hiddenline"])
-        states["numbers"][states["moves"]] += "3"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-
-def addfour():
-    if states["finished"] < 1:
-        states["hiddenline"] += "4" 
-        calcline.set(states["hiddenline"])
-        states["numbers"][states["moves"]] += "4"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-
-def addfive():
-    if states["finished"] < 1:
-        states["hiddenline"] += "5" 
-        calcline.set(states["hiddenline"])
-        states["numbers"][states["moves"]] += "5"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-
-def addsix():
-    if states["finished"] < 1:
-        states["hiddenline"] += "6" 
-        calcline.set(states["hiddenline"])
-        states["numbers"][states["moves"]] += "6"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-
-def addseven():
-    if states["finished"] < 1:
-        states["hiddenline"] += "7" 
-        calcline.set(states["hiddenline"])
-        states["numbers"][states["moves"]] += "7"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-
-def addeight():
-    if states["finished"] < 1:
-        states["hiddenline"] += "8" 
-        calcline.set(states["hiddenline"])
-        states["numbers"][states["moves"]] += "8"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-
-def addnine():
-    if states["finished"] < 1:
-        states["hiddenline"] += "9" 
-        calcline.set(states["hiddenline"])
-        states["numbers"][states["moves"]] += "9"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-
-def addzero():
-    if states["finished"] < 1:
-        states["hiddenline"] += "0" 
-        calcline.set(states["hiddenline"])
-        states["numbers"][states["moves"]] += "0"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-
-def addplus():
+def addop(op):
     if states["moves"] != 1 and states["finished"] != 2:
         states["finished"] -= 1
         states["moves"] = 1
-        states["hiddenline"] += "+"
-        states["operand"] = "plus"
+        if op == "+":
+            states["hiddenline"] += "+"
+            states["operand"] = "plus"
+        if op == "-":
+            if states["hiddenline"] == " " and states["hiddenline"] != " -" and states["finished"] != 2:
+                states["moves"] = 0
+                states["hiddenline"] += "-"
+                calcline.set(states["hiddenline"])
+                states["numbers"][0] += "-"
+            elif states["hiddenline"] != " " and states["finished"] != 2 and states["hiddenline"] != " -":
+                states["hiddenline"] += "-"
+                states["operand"] = "minus"
+        elif op == "/":
+            states["hiddenline"] += "/"
+            states["operand"] = "divide"
+        elif op == "*":
+            states["hiddenline"] += "*"
+            states["operand"] = "multiply"
+        elif op == "^":
+            states["hiddenline"] += "^"
+            states["operand"] = "power"
         try:
             if states["numbers"][states["moves"]].find(".") == -1:
                 states["dot"] = 0
@@ -219,61 +139,6 @@ def addplus():
             pass
         calcline.set(states["hiddenline"])
 
-def addminus():
-    if states["hiddenline"] == " " and states["hiddenline"] != "-":
-        states["hiddenline"] += "-"
-        calcline.set(states["hiddenline"])
-        states["numbers"][0] += "-"
-    elif states["moves"] != 1 and states["hiddenline"] != " " and states["finished"] != 2 and states["hiddenline"] != " -":
-        states["finished"] -= 1
-        states["moves"] = 1
-        states["hiddenline"] += "-"
-        states["operand"] = "minus"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-        calcline.set(states["hiddenline"])
-
-def adddivide():
-    if states["moves"] != 1 and states["finished"] != 2:
-        states["finished"] -= 1
-        states["moves"] = 1
-        states["hiddenline"] += "/" 
-        states["operand"] = "divide"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-        calcline.set(states["hiddenline"])
-
-def addmultiply():
-    if states["moves"] != 1 and states["finished"] != 2:
-        states["finished"] -= 1
-        states["moves"] = 1
-        states["hiddenline"] += "*"
-        states["operand"] = "multiply"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-        calcline.set(states["hiddenline"])
-
-def addpower():
-    if states["moves"] != 1 and states["finished"] != 2:
-        states["finished"] -= 1
-        states["moves"] = 1
-        states["hiddenline"] += "^"
-        states["operand"] = "power"
-        try:
-            if states["numbers"][states["moves"]].find(".") == -1:
-                states["dot"] = 0
-        except AttributeError:
-            pass
-        calcline.set(states["hiddenline"])
 
 def addsquared():
     states["finished"] -= 1
@@ -313,29 +178,29 @@ mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
-ttk.Label(mainframe, textvariable=calcline, font = ('Lucida Console', 15)).grid(column=1, row=1 , sticky=N, columnspan=5)
+Label(mainframe, textvariable=calcline, font = ('Lucida Console', 15), height=2).grid(column=1, row=1 , sticky=N, columnspan=6)
 
-ttk.Button(mainframe, text="1", command=addone).grid(column=1, row=2, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="2", command=addtwo).grid(column=2, row=2, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="3", command=addthree).grid(column=3, row=2, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="+", command=addplus).grid(column=4, row=2, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="-", command=addminus).grid(column=5, row=2, sticky=(N, W, S, E))
+Button(mainframe, text="1", command=lambda: addnum(1), height=3, width=10, activebackground="darkgray").grid(column=1, row=2, sticky=(N, W, S, E))
+Button(mainframe, text="2", command=lambda: addnum(2), height=3, width=10, activebackground="darkgray").grid(column=2, row=2, sticky=(N, W, S, E))
+Button(mainframe, text="3", command=lambda: addnum(3), height=3, width=10, activebackground="darkgray").grid(column=3, row=2, sticky=(N, W, S, E))
+Button(mainframe, text="+", command=lambda: addop("+"), height=3, width=10, activebackground="darkgray").grid(column=5, row=2, sticky=(N, W, S, E))
+Button(mainframe, text="-", command=lambda: addop("-"), height=3, width=10, activebackground="darkgray").grid(column=6, row=2, sticky=(N, W, S, E))
 
-ttk.Button(mainframe, text="4", command=addfour).grid(column=1, row=3, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="5", command=addfive).grid(column=2, row=3, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="6", command=addsix).grid(column=3, row=3, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="*", command=addmultiply).grid(column=4, row=3, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="/", command=adddivide).grid(column=5, row=3, sticky=(N, W, S, E))
+Button(mainframe, text="4", command=lambda: addnum(4), height=3, width=5, activebackground="darkgray").grid(column=1, row=3, sticky=(N, W, S, E))
+Button(mainframe, text="5", command=lambda: addnum(5), height=3, width=5, activebackground="darkgray").grid(column=2, row=3, sticky=(N, W, S, E))
+Button(mainframe, text="6", command=lambda: addnum(6), height=3, width=5, activebackground="darkgray").grid(column=3, row=3, sticky=(N, W, S, E))
+Button(mainframe, text="*", command=lambda: addop("*"), height=3, width=5, activebackground="darkgray").grid(column=5, row=3, sticky=(N, W, S, E))
+Button(mainframe, text="/", command=lambda: addop("/"), height=3, width=5, activebackground="darkgray").grid(column=6, row=3, sticky=(N, W, S, E))
 
-ttk.Button(mainframe, text="7", command=addseven).grid(column=1, row=4, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="8", command=addeight).grid(column=2, row=4, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="9", command=addnine).grid(column=3, row=4, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="^", command=addpower).grid(column=4, row=4, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="x^2", command=addsquared).grid(column=5, row=4, sticky=(N, W, S, E))
+Button(mainframe, text="7", command=lambda: addnum(7), height=3, width=5, activebackground="darkgray").grid(column=1, row=4, sticky=(N, W, S, E))
+Button(mainframe, text="8", command=lambda: addnum(8), height=3, width=5, activebackground="darkgray").grid(column=2, row=4, sticky=(N, W, S, E))
+Button(mainframe, text="9", command=lambda: addnum(9), height=3, width=5, activebackground="darkgray").grid(column=3, row=4, sticky=(N, W, S, E))
+Button(mainframe, text="^", command=lambda: addop("^"), height=3, width=5, activebackground="darkgray").grid(column=5, row=4, sticky=(N, W, S, E))
+Button(mainframe, text="x^2", command=addsquared, height=3, width=5, activebackground="darkgray").grid(column=6, row=4, sticky=(N, W, S, E))
 
-ttk.Button(mainframe, text=".", command=addpoint).grid(column=1, row=5, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="0", command=addzero).grid(column=2, row=5, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="=", command=calculate).grid(column=3, row=5, sticky=(N, W, S, E))
-ttk.Button(mainframe, text="clear", command=clear).grid(column=5, row=5, sticky=(N, W, S, E))
+Button(mainframe, text=".", command=addpoint, height=3, width=5, activebackground="darkgray").grid(column=1, row=5, sticky=(N, W, S, E))
+Button(mainframe, text="0", command=lambda: addnum(0), height=3, width=5, activebackground="darkgray").grid(column=2, row=5, sticky=(N, W, S, E))
+Button(mainframe, text="=", command=calculate, height=3, width=5, activebackground="darkgray").grid(column=3, row=5, sticky=(N, W, S, E))
+Button(mainframe, text="clear", command=clear, height=3, width=5, activebackground="darkgray").grid(column=5, row=5, sticky=(N, W, S, E))
 
 root.mainloop()
